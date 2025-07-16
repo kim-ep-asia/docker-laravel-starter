@@ -1,0 +1,28 @@
+services:
+  php-apache:
+    container_name: "${CONTAINER_NAME_PREFIX}-apache-php"
+    build: .
+    volumes:
+      - ${PATH_TO_LARAVEL_PROJECT}:/var/www/html
+    ports:
+      - "80:80"
+
+  db:
+    container_name: "${CONTAINER_NAME_PREFIX}-mysql"
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=${ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - db:/var/lib/mysql
+
+  adminer:
+    container_name: "${CONTAINER_NAME_PREFIX}-adminer"
+    image: adminer
+    ports:
+      - "8080:8080"
+volumes:
+  db:
