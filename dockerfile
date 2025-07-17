@@ -10,18 +10,18 @@ COPY ./xdebug.ini "$PHP_INI_DIR/conf.d/99-xdebug.ini"
 # RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 # Install Packages
-RUN apt-get -y update && apt-get install -y libicu-dev libzip-dev zip libjpeg-dev libpng-dev libfreetype6-dev git nano
+RUN apt-get -y update && apt-get install -y libicu-dev libzip-dev zip libjpeg-dev libpng-dev libfreetype6-dev git nano certbot python3-certbot-apache
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-configure gd '--with-jpeg' '--with-freetype'
 RUN docker-php-ext-install intl opcache pdo_mysql zip gd
 RUN pecl install xdebug
 RUN a2enmod rewrite
+RUN a2enmod ssl
+RUN a2ensite default-ssl
+RUN chown -R www-data:www-data /var/www/html
 
 # INSTALL APCU
 RUN pecl install apcu-5.1.24 && docker-php-ext-enable apcu
-# RUN echo "extension=apcu.so" > /usr/local/etc/php/php.ini
-# RUN echo "apc.enable_cli=1" > /usr/local/etc/php/php.ini
-# RUN echo "apc.enable=1" > /usr/local/etc/php/php.ini
 # APCU
 
 COPY ./php.ini "$PHP_INI_DIR/php.ini"
