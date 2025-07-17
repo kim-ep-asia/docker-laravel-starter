@@ -16,8 +16,6 @@ RUN docker-php-ext-configure gd '--with-jpeg' '--with-freetype'
 RUN docker-php-ext-install intl opcache pdo_mysql zip gd
 RUN pecl install xdebug
 RUN a2enmod rewrite
-RUN a2enmod ssl
-RUN a2ensite default-ssl
 RUN chown -R www-data:www-data /var/www/html
 
 # INSTALL APCU
