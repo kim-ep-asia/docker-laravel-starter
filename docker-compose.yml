@@ -7,7 +7,7 @@ services:
       - ./docker/certs:/etc/apache2/ssl
     ports:
       - "80:80"
-      - "433:433"
+      - "443:443"
 
   db:
     container_name: "${CONTAINER_NAME_PREFIX}-mysql"
